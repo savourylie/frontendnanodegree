@@ -104,6 +104,66 @@ var map;    // declares a global map variable
 Start here! initializeMap() is called when page is loaded.
 */
 function initializeMap() {
+  var contentUS = '<div id="pin-content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">US</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>US</b>, also referred to as <b>the US of A</b>, is a large ' +
+      'rock with lots of people living on it. '+
+      'It is also the place where RocknRoll was born.</p>'+
+      '<p>Attribution: US, <a href="http://uncyclopedia.wikia.com/wiki/United_States_of_America">'+
+      'http://uncyclopedia.wikia.com/wiki/United_States_of_America</a> '+
+      '(last visited June 22, 2009).</p>'+
+      '</div>'+
+      '</div>';
+
+  var contentUK = '<div id="pin-content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">UK</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>UK</b>, also referred to as <b>United Kondom</b>, is a small ' +
+      'isle fill with lager lovers. '+
+      '.</p>'+
+      '<p>Attribution: UK, <a href="http://uncyclopedia.wikia.com/wiki/United_Kingdom">'+
+      'http://uncyclopedia.wikia.com/wiki/United_Kingdom</a> '+
+      '(last visited June 22, 2009).</p>'+
+      '</div>'+
+      '</div>';
+
+  var contentSZ = '<div id="pin-content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">China</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>China</b>, also referred to as <b>The Garyland</b>, is one of the largest rice-eating country in asia, ' +
+      'although they strongly believe they buy more iPhones then they eat rice.</p>'+
+      '<p>Attribution: China, <a href="http://uncyclopedia.wikia.com/wiki/China">'+
+      'http://uncyclopedia.wikia.com/wiki/China</a> '+
+      '(last visited June 22, 2009).</p>'+
+      '</div>'+
+      '</div>';
+
+  var contentTW = '<div id="pin-content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">Taiwan</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>Taiwan</b>, also referred to as <b>TaiTwo</b>, is a small islet that doesnt like getting ignored all the time. ' +
+      '</p>'+
+      '<p>Attribution: Taiwan, <a href="http://uncyclopedia.wikia.com/wiki/Taiwan">'+
+      'http://uncyclopedia.wikia.com/wiki/Taiwan</a> '+
+      '(last visited June 22, 2009).</p>'+
+      '</div>'+
+      '</div>';
+
+  var contentObj = {
+    "US": contentUS,
+    "UK": contentUK,
+    "SZ": contentSZ,
+    "TW": contentTW
+  };
 
   var locations;
 
@@ -168,14 +228,41 @@ function initializeMap() {
     // infoWindows are the little helper windows that open when you click
     // or hover over a pin on a map. They usually contain more information
     // about a location.
+
+    console.log(placeData.formatted_address);
+
+    countryInfo_arr = placeData.formatted_address.split(" ");
+    console.log(countryInfo_arr);
+
+    var countryInfo = countryInfo_arr[countryInfo_arr.length - 1];
+    console.log(countryInfo);
+
+    var contentInfo;
+
+    switch(countryInfo) {
+      case "Taiwan":
+        contentInfo = contentObj.TW;
+        break;
+      case "USA":
+        contentInfo = contentObj.US;
+        break;
+      case "UK":
+        contentInfo = contentObj.UK;
+        console.log("UK rocks");
+        break;
+      default:
+        contentInfo = contentObj.SZ;
+    }
+
     var infoWindow = new google.maps.InfoWindow({
-      content: name
+      content: contentInfo
     });
 
     // hmmmm, I wonder what this is about...
     google.maps.event.addListener(marker, 'click', function() {
       // your code goes here!
       infoWindow.open(map, marker);
+
     });
 
     // this is where the pin actually gets added to the map.
@@ -194,6 +281,7 @@ function initializeMap() {
   function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       createMapMarker(results[0]);
+      // console.log(results[0]);
     }
   }
 
