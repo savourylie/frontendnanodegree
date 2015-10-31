@@ -229,13 +229,13 @@ function initializeMap() {
     // or hover over a pin on a map. They usually contain more information
     // about a location.
 
-    console.log(placeData.formatted_address);
+    // console.log(placeData.formatted_address);
 
     countryInfo_arr = placeData.formatted_address.split(" ");
-    console.log(countryInfo_arr);
+    // console.log(countryInfo_arr);
 
     var countryInfo = countryInfo_arr[countryInfo_arr.length - 1];
-    console.log(countryInfo);
+    // console.log(countryInfo);
 
     var contentInfo;
 
@@ -248,7 +248,7 @@ function initializeMap() {
         break;
       case "UK":
         contentInfo = contentObj.UK;
-        console.log("UK rocks");
+        // console.log("UK rocks");
         break;
       default:
         contentInfo = contentObj.SZ;
