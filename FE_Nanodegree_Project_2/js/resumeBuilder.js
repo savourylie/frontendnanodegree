@@ -24,18 +24,22 @@ bio.display = function() {
 	var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
 	var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
 	var formattedTwitter = HTMLtwitter.replace("%data%", bio.contacts.twitter);
+	var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
 
 	// Top Contatcts
 	$('#topContacts').append(formattedMobile);
 	$('#topContacts').append(formattedEmail);
 	$('#topContacts').append(formattedGithub);
 	$('#topContacts').append(formattedTwitter);
+	$('#topContacts').append(formattedLocation);
+
 
 	// Footer Contacts
 	$('#footerContacts').append(formattedMobile);
 	$('#footerContacts').append(formattedEmail);
 	$('#footerContacts').append(formattedGithub);
 	$('#footerContacts').append(formattedTwitter);
+	$('#footerContacts').append(formattedLocation);
 
 	var formattedMessage = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
 	var formattedImage = HTMLbioPic.replace("%data%", bio.bioPic);
