@@ -87,7 +87,7 @@ var education = {
 	"onlineCourses": [
 		{
 			"title": "Machine Learning",
-			"school": "Stanford University",
+			"school": "Coursera",
 			"dates": 2014,
 			"url": "http://www.coursera.com"
 		}
