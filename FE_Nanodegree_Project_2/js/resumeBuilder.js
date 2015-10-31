@@ -236,20 +236,20 @@ $(document).click(function(loc) {
 });
 
 // Append Internationalize Button to the main div
-internationalizeButton = internationalizeButton.replace('<button>', '<button onclick="inName()">');
+// internationalizeButton = internationalizeButton.replace('<button>', '<button onclick="inName()">');
 
-$('#main').append(internationalizeButton);
+// $('#main').append(internationalizeButton);
 
-function inName() {
-	var name = bio.name;
-	var name_arr = name.split(" ");
-	var first_name = name_arr[0];
-	var last_name = name_arr[1];
+// function inName() {
+// 	var name = bio.name;
+// 	var name_arr = name.split(" ");
+// 	var first_name = name_arr[0];
+// 	var last_name = name_arr[1];
 
-	last_name = last_name.toUpperCase();
+// 	last_name = last_name.toUpperCase();
 
-	return first_name + " " + last_name;
-}
+// 	return first_name + " " + last_name;
+// }
 
 
 // "employer": "Medici Software",
