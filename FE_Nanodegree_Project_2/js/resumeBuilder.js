@@ -25,22 +25,22 @@ bio.display = function() {
 	var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
 	var formattedTwitter = HTMLtwitter.replace("%data%", bio.contacts.twitter);
 
+	// Top Contatcts
 	$('#topContacts').append(formattedMobile);
 	$('#topContacts').append(formattedEmail);
 	$('#topContacts').append(formattedGithub);
 	$('#topContacts').append(formattedTwitter);
 
-	// for (var contact in bio.contacts) {
+	// Footer Contacts
+	$('#footerContacts').append(formattedMobile);
+	$('#footerContacts').append(formattedEmail);
+	$('#footerContacts').append(formattedGithub);
+	$('#footerContacts').append(formattedTwitter);
 
-	// 	$('#topContacts').append('<li><span style="color: #f5a623">' + contact + '</span> ' + '<span style="color: white">' + bio.contacts[contact] + '</span></li>');
-	// }
-	// $('#topContacts').append('<li>mobile ' + this.contacts.mobile + '</li>');
-	// $('#topContacts').append('<li>email ' + this.contacts.email + '</li>');
-	// $('#topContacts').append('<li>github ' + this.contacts.github + '</li>');
-	// $('#topContacts').append('<li>mobile ' + this.contacts.mobile + '</li>');
-
+	var formattedMessage = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
 	var formattedImage = HTMLbioPic.replace("%data%", bio.bioPic);
 	$("#header").append(formattedImage);
+	$('#header').append(formattedMessage);
 	$("#header").prepend(HTMLheaderRole.replace("%data%", bio.role));
 	$("#header").prepend(HTMLheaderName.replace("%data%", bio.name));
 
@@ -76,7 +76,7 @@ var education = {
 		},
 		{
 			"name": "Rubbish School",
-			"location": "Los Angeles, CA, US",
+			"location": "Los Angeles, US",
 			"degree": "BS",
 			"majors": ["B*llshitology"],
 			"dates": 3001,
@@ -112,9 +112,11 @@ education.display = function() {
 		var formattedDates = HTMLschoolDates.replace("%data%", education.schools[school].dates);
 		var formattedSchoolDegree = HTMLschoolDegree.replace("%data%", education.schools[school].degree);
 		var formattedMajors = HTMLschoolMajor.replace("%data%", education.schools[school].majors[0]);
+		var formattedSchoolLocation = HTMLschoolLocation.replace("%data%", education.schools[school].location)
 
 		$(".education-entry:last").append(formattedSchoolName + formattedSchoolDegree);
 		$(".education-entry:last").append(formattedDates);
+		$(".education-entry:last").append(formattedSchoolLocation);
 		$(".education-entry:last").append(formattedMajors);
 	}
 
@@ -250,38 +252,4 @@ $(document).click(function(loc) {
 
 // 	return first_name + " " + last_name;
 // }
-
-
-// "employer": "Medici Software",
-// "title": "AI Engineer",
-// "location": "Guangzhou, China",
-// "dates": "2014-2015",
-// "description": "AI stuff"
-//
-//
-// education["name"] = "UEA";
-// education["years"] = 2008;
-// education["city"] = "Norwich";
-
-// var formattedName = HTMLheaderName.replace("%data%", bio.name);
-// var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
-// var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
-// var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
-// var formattedTwitter = HTMLtwitter.replace("%data%", bio.contacts.twitter);
-// var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
-
-// var formattedPosition = HTMLworkTitle.replace("%data%", work.position)
-// var formattedSchool = HTMLschoolName.replace("%data%", education.name);
-
-// $("#header").append(formattedName);
-// $("#header").append(formattedRole);
-// $("#header").append(formattedMobile);
-// $("#header").append(formattedEmail);
-// $("#header").append(formattedTwitter);
-// $("#header").append(formattedLocation);
-// $("#header").append(formattedPosition);
-// $("#header").append(formattedSchool);
-
-
-
 
