@@ -68,7 +68,7 @@ var education = {
 		},
 		{
 			"name": "National Cheng Kung Univeristy",
-			"city": "Tainan, Taiwan",
+			"location": "Tainan, Taiwan",
 			"degree": "BEng",
 			"majors": ["Aeronautics and Astronautics"],
 			"dates": 2006,
@@ -76,7 +76,7 @@ var education = {
 		},
 		{
 			"name": "Rubbish School",
-			"city": "California, US",
+			"location": "Los Angeles, CA, US",
 			"degree": "BS",
 			"majors": ["B*llshitology"],
 			"dates": 3001,
@@ -151,7 +151,7 @@ work.jobs = [
 	{
 		"employer": "Medici Software",
 		"title": "AI Engineer",
-		"location": "Guangzhou, China",
+		"location": "London, UK",
 		"dates": "March, 2014 - May, 2015",
 		"description": "AI stuff"
 	},
@@ -160,7 +160,7 @@ work.jobs = [
 		"title": "Slacker",
 		"location": "Shenzhen, China",
 		"dates": "Nov, 2011 - April, 2013",
-		"description": "Started doing nothing at CSO from Jul, 2015"
+		"description": "Started being a slacker at CSO from Jul, 2015"
 	},
 	{
 		"employer": "National Tainan Institute of Nursing",
