@@ -69,10 +69,18 @@ var education = {
 		{
 			"name": "National Cheng Kung Univeristy",
 			"city": "Tainan, Taiwan",
-			"degree": "BS",
+			"degree": "BEng",
 			"majors": ["Aeronautics and Astronautics"],
 			"dates": 2006,
 			'url': "http://web.ncku.edu.tw/"
+		},
+		{
+			"name": "Rubbish School",
+			"city": "California, US",
+			"degree": "BS",
+			"majors": ["B*llshitology"],
+			"dates": 3001,
+			'url': "http://www.stanford.edu/"
 		}
 	],
 
