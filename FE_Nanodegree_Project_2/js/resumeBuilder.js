@@ -57,8 +57,6 @@ bio.display = function() {
 
 };
 
-bio.display(); // To be moved to bottom later
-
 // The education object
 var education = {
 	"schools": [
@@ -98,15 +96,6 @@ var education = {
 	]
 };
 
-// var HTMLschoolLocation = '<div class="location-text">%data%</div>';
-// var HTMLschoolMajor = '<em><br>Major: %data%</em>';
-
-// var HTMLonlineClasses = '<h3>Online Classes</h3>';
-// var HTMLonlineTitle = '<a href="#">%data%';
-// var HTMLonlineSchool = ' - %data%</a>';
-// var HTMLonlineDates = '<div class="date-text">%data%</div>';
-// var HTMLonlineURL = '<br><a href="#">%data%</a>';
-
 education.display = function() {
 	$("#education").append(HTMLschoolStart);
 
@@ -138,17 +127,7 @@ education.display = function() {
 		$(".education-entry:last").append(formattedOnlineDates);
 		$(".education-entry:last").append(formattedOnlineURL);
 	}
-
-
-// var HTMLonlineTitle = '<a href="#">%data%';
-// var HTMLonlineSchool = ' - %data%</a>';
-// var HTMLonlineDates = '<div class="date-text">%data%</div>';
-// var HTMLonlineURL = '<br><a href="#">%data%</a>';
-
 };
-
-
-education.display();
 
 // The work object
 var work = {};
@@ -194,8 +173,6 @@ work.display = function() {
 	}
 };
 
-work.display();
-
 // The project object
 var projects = {};
 
@@ -213,7 +190,6 @@ projects.projects = [
 			"images": ["http://placehold.it/350x150", "http://placekitten.com/g/150/150"]
 		}
 ];
-
 
 projects.display = function() {
 	$("#projects").append(HTMLprojectStart);
@@ -234,6 +210,9 @@ projects.display = function() {
 
 };
 
+bio.display();
+education.display();
+work.display();
 projects.display();
 
 //Google Maps
