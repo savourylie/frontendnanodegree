@@ -204,13 +204,13 @@ projects.projects = [
 			"title": "LifeInShenzhen",
 			"dates": "Nov, 2011 - Feb, 2012",
 			"description": "Provide foreigners in Shenzhen services that are essential to their day to day life.",
-			// "images": []
+			"images": ["http://placehold.it/350x150", "http://placekitten.com/g/150/150"]
 		},
 		{
 			"title": "WorkInShenzhen",
 			"dates": "Nov, 2011 - Feb, 2012",
-			"description": "Provide foreigners in Shenzhen services that are essential in their day to day work."
-			// "images": []
+			"description": "Provide foreigners in Shenzhen services that are essential in their day to day work.",
+			"images": ["http://placehold.it/350x150", "http://placekitten.com/g/150/150"]
 		}
 ];
 
@@ -225,6 +225,11 @@ projects.display = function() {
 		$(".project-entry:last").append(formattedProjectTitle);
 		$(".project-entry:last").append(formattedProjectData);
 		$(".project-entry:last").append(formattedProjectDescription);
+
+		for (var i in projects.projects[project].images) {
+			var formattedProjectImages = HTMLprojectImage.replace("%data%", projects.projects[project].images[i]);
+			$(".project-entry:last").append(formattedProjectImages);
+		}
 	}
 
 };
