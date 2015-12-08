@@ -72,15 +72,17 @@ var Player = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/char-boy.png';
-    this.x = 505;
-    this.y = 30;
+    this.x = 201;
+    this.y = 380;
 };
 
 Player.prototype.update = function() {
 
 };
 
-Player.prototype.render = function(){};
+Player.prototype.render = function(){
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -90,10 +92,6 @@ var allEnemies = [];
 var player = new Player();
 
 var enemy_i = 0;
-
-// while (true) {
-//     allEnemies[enemy_i] 
-// }
 
 var e1 = new Enemy(Date.now());
 var e2 = new Enemy(Date.now());
