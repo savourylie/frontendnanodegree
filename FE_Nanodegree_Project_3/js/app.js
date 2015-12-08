@@ -1,26 +1,19 @@
+// Random number generator (seedable)
 function random(seed) {
     var x = Math.sin(seed++) * 10000;
     return x - Math.floor(x);
 }
 
-// var speedFactor = 110;
-
+// Random Speed Array for Enemies
 var speedFactor_arr = [100, 200, 300, 400];
 
+// Random Position Generator for Enemies
 var randomPosFunc = function(seed) {
     var randomFactor = [60, 140, 220];
     var randomIndex = Math.floor(random(seed) * randomFactor.length);
     var randomPos = randomFactor[randomIndex];
 
     return randomPos;
-}
-
-var randomSpeedFunc = function (seed) {
-    var randomFactor = [1, 2.5, 3, 3.5];
-    var randomIndex = Math.floor(random(seed) * randomFactor.length);
-    var randomSpeed = 110 * randomFactor[randomIndex];
-
-    return randomSpeed;
 }
 
 // Enemies our player must avoid
@@ -46,9 +39,9 @@ Enemy.prototype.update = function(dt) {
 
     if (this.x > 550) {
         this.x = -100;
-        this.y = randomPosFunc(Date.now());
+        this.y = randomPosFunc(Date.now() + Math.random()*10000);
         // speedFactor = 200;
-        this.speedFactor = speedFactor_arr[Math.floor(random(Date.now()) * 4)];
+        this.speedFactor = speedFactor_arr[Math.floor(random(Date.now() + Math.random()*10000) * 4)];
     }
     
     this.x = this.x + this.speedFactor * dt;
@@ -127,13 +120,11 @@ Player.prototype.handleInput = function(key) {
 var allEnemies = [];
 var player = new Player();
 
-var enemy_i = 0;
-
-var e1 = new Enemy(Date.now());
-var e2 = new Enemy(Date.now());
-var e3 = new Enemy(Date.now());
-var e4 = new Enemy(Date.now());
-var e5 = new Enemy(Date.now());
+var e1 = new Enemy(Date.now() + Math.random()*10000);
+var e2 = new Enemy(Date.now() + Math.random()*10000);
+var e3 = new Enemy(Date.now() + Math.random()*10000);
+var e4 = new Enemy(Date.now() + Math.random()*10000);
+var e5 = new Enemy(Date.now() + Math.random()*10000);
 
 allEnemies.push(e1);
 allEnemies.push(e2);
