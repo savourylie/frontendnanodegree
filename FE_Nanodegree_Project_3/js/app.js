@@ -124,13 +124,12 @@ var e1 = new Enemy(Date.now() + Math.random()*10000);
 var e2 = new Enemy(Date.now() + Math.random()*10000);
 var e3 = new Enemy(Date.now() + Math.random()*10000);
 var e4 = new Enemy(Date.now() + Math.random()*10000);
-var e5 = new Enemy(Date.now() + Math.random()*10000);
 
 allEnemies.push(e1);
 allEnemies.push(e2);
 allEnemies.push(e3);
 allEnemies.push(e4);
-allEnemies.push(e5);
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
