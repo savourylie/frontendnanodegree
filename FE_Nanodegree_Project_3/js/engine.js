@@ -78,9 +78,19 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+    
+    function checkCollisions(enemy_arr, player) {
+        var collision = false;
+        enemy_arr.forEach(function(enemy) {
+            if (enemy.y === player.y && enemy.x + 60 >= player.x && enemy.x - 60 <= player.x) {
+                collision = true;
+            }
+        });
+        return collision;
+    }
+
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -94,7 +104,11 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        
+        if (checkCollisions(allEnemies, player) === true) {
+            player.update();
+        }
+        
     }
 
     /* This function initially draws the "game level", it will then call

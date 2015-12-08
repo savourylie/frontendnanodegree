@@ -8,7 +8,7 @@ function random(seed) {
 var speedFactor_arr = [100, 200, 300, 400];
 
 var randomPosFunc = function(seed) {
-    var randomFactor = [1, 2.35, 3.75];
+    var randomFactor = [60, 140, 220];
     var randomIndex = Math.floor(random(seed) * randomFactor.length);
     var randomPos = randomFactor[randomIndex];
 
@@ -33,7 +33,7 @@ var Enemy = function(seed) {
 
     this.sprite = 'images/enemy-bug.png';
     this.x = -100;
-    this.y = 60 * randomPosFunc(seed);
+    this.y = randomPosFunc(seed);
     this.speedFactor = 110;
 };
 
@@ -46,14 +46,14 @@ Enemy.prototype.update = function(dt) {
 
     if (this.x > 550) {
         this.x = -100;
-        this.y = 60 * randomPosFunc(Date.now());
+        this.y = randomPosFunc(Date.now());
         // speedFactor = 200;
         this.speedFactor = speedFactor_arr[Math.floor(random(Date.now()) * 4)];
     }
     
     this.x = this.x + this.speedFactor * dt;
     // console.log(this.y);
-    console.log(this.speedFactor);
+    // console.log(this.speedFactor);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -77,7 +77,8 @@ var Player = function() {
 };
 
 Player.prototype.update = function() {
-
+    this.x = 201;
+    this.y = 380;
 };
 
 Player.prototype.render = function(){
@@ -88,7 +89,7 @@ Player.prototype.handleInput = function(key) {
     switch (key) {
         case 'up':
             if (this.y !== 60) {
-                this.y = this.y - 80;    
+                this.y = this.y - 80;
             }
             
             else {
