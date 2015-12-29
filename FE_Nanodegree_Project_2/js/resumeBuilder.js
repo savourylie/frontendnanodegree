@@ -98,7 +98,7 @@ $(function(){
 					"dates": "Feb - Jun, 2010",
 					"description": "Taught English conversation ans stuff"
 				}
-			];
+			]
 		},
 
 		projects: {
@@ -115,7 +115,7 @@ $(function(){
 					"description": "Provide foreigners in Shenzhen services that are essential in their day to day work.",
 					"images": ["http://placehold.it/350x150", "http://placekitten.com/g/150/150"]
 				}
-			];
+			]
 		}
     };
 
@@ -142,7 +142,7 @@ $(function(){
             view.render.project();
         },
 
-        render: function() {
+        render: {
         	bio: function() {
         		var formattedMobile = HTMLmobile.replace("%data%", octopus.getData().bio.contacts.mobile);
 				var formattedEmail = HTMLemail.replace("%data%", octopus.getData().bio.contacts.email);
@@ -166,7 +166,7 @@ $(function(){
 				$('#footerContacts').append(formattedLocation);
 
 				var formattedMessage = HTMLwelcomeMsg.replace("%data%", octopus.getData().bio.welcomeMessage);
-				var formattedImage = HTMLoctopus.getData().bioPic.replace("%data%", octopus.getData().bio.octopus.getData().bioPic);
+				var formattedImage = HTMLbioPic.replace("%data%", octopus.getData().bio.bioPic);
 				$("#header").append(formattedImage);
 				$('#header').append(formattedMessage);
 				$("#header").prepend(HTMLheaderRole.replace("%data%", octopus.getData().bio.role));
@@ -178,6 +178,9 @@ $(function(){
 						$("#skills").append(HTMLskills.replace("%data%", octopus.getData().bio.skills[skill]));
 					}
 				}
+
+				console.log("render.bio() is called OK.");
+				console.log(octopus.getData().bio.welcomeMessage);
         	},
 
         	education: function() {
