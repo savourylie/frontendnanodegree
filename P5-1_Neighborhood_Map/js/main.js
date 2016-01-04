@@ -140,16 +140,12 @@ var ViewModel = function() {
 
   this.filter = ko.observable();
 
+  this.favPlacesObj_global = {};
+
   $('#filter').keyup(function() {
     var substring = $('#filter').val();
 
-    var favPlacesObj = {
-      // "mccawleys": mcCawleys,
-      // "starbuckscoco": starbucksCoco,
-      // "dreamgym": dreamGym,
-      // "yonghedawang": yongHeDaWang,
-      // "mujiretail": mujiRetail
-    };
+    var favPlacesObj = {};
 
     for (var place = 0; place < self.favPlaces().length; place++) {
       var string = self.favPlaces()[place].title;
@@ -168,14 +164,17 @@ var ViewModel = function() {
     }
     console.log($('#filter').val());
     console.log(favPlacesObj);
-    setMapOnAll(null);
-    console.log("markers cleared.");
 
-    for (var key in favPlacesObj) {
-        setMapOnOneMarker(map, markers_R[key]);
-        console.log("added once.");
+    if (JSON.stringify(favPlacesObj) !== JSON.stringify(self.favPlacesObj_global)) {
+        setMapOnAll(null);
+        console.log("markers cleared.");
+        self.favPlacesObj_global = favPlacesObj;
+
+        for (var key in favPlacesObj) {
+            setMapOnOneMarker(map, markers_R[key]);
+            console.log("added once.");
+        }
     }
-
   })
 
 	// initialCats.forEach(function(catItem) {
