@@ -115,7 +115,7 @@ nav {
   position: absolute;
   transform: translate(-300px, 0);
   transition: transform 0.3s ease;
-  z-index: 1;
+  z-index: 3;
 }
 
 .filter {
@@ -168,6 +168,6 @@ li {
 }
 
 #map {
-  z-index: -1;
+  z-index: 2;
   flex-grow:1;
 }
