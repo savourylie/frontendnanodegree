@@ -6,6 +6,14 @@
  * jQuery.
  */
 
+// Global variables for testing with JasmineJS
+var globalObj = this; 
+var jsmMenuIcon;
+
+var toggleMenu = function() {
+    $('body').toggleClass('menu-hidden');
+}
+
 // The names and URLs to all of the feeds we'd like available.
 var allFeeds = [
     {
@@ -99,6 +107,7 @@ $(function() {
         feedItemTemplate = Handlebars.compile($('.tpl-feed-list-item').html()),
         feedId = 0,
         menuIcon = $('.menu-icon-link');
+        jsmMenuIcon = menuIcon;
 
     /* Loop through all of our feeds, assigning an id property to
      * each of the feeds based upon its index within the array.
@@ -128,7 +137,5 @@ $(function() {
     /* When the menu icon is clicked on, we need to toggle a class
      * on the body to perform the hiding/showing of our menu.
      */
-    menuIcon.on('click', function() {
-        $('body').toggleClass('menu-hidden');
-    });
+    menuIcon.on('click', toggleMenu);
 }());

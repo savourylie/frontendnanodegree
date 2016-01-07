@@ -31,22 +31,50 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
+         it('have none empty URLs', function() {
+           var urlsAllGood = true;
+
+           allFeeds.forEach(function(feed) {
+             if (!Boolean(feed.url)) {
+               urlsAllGood = false;
+             }
+           });
+
+           expect(urlsAllGood).toBe(true);
+         });
 
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+         it('have none empty names', function() {
+           var namesAllGood = true;
+
+           allFeeds.forEach(function(feed) {
+             if (!Boolean(feed.name)) {
+               namesAllGood = false;
+             }
+           });
+
+           expect(namesAllGood).toBe(true);
+         });
     });
 
 
     /* TODO: Write a new test suite named "The menu" */
+    describe('The menu', function() {
 
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
+         it('is hidden by default', function() {
+          // Do nothing when the DOM is prepared, and
+          // Check that when class="menu-hidden slide-menu" is applied to the element it is set with properties that hide it
+           expect($('.menu-hidden .slide-menu').css('transform')).toBe('matrix(1, 0, 0, 1, -192, 0)');
+         });
 
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
@@ -54,6 +82,26 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
 
+          it('is shown when the hamburger icon is clicked, and is hidden again when clicked again', function() {
+
+            // Creating a stub for the menu button object
+            spyOn(jsmMenuIcon, 'on').and.callThrough();
+
+            // Creating a stub for the toggleMenu function
+            spyOn(globalObj, 'toggleMenu');
+
+            // Testing the functions combined
+            jsmMenuIcon.on('click', function() {
+                globalObj.toggleMenu();
+                console.log('.on method not affected by spyOn');
+            });
+
+            // 1. See if the click event works
+            expect(jsmMenuIcon.on).toHaveBeenCalled();
+            // 2. See if the toggelMenu function works
+            expect(globalObj.toggleMenu).toHaveBeenCalled();
+          });
+    });
     /* TODO: Write a new test suite named "Initial Entries" */
 
         /* TODO: Write a test that ensures when the loadFeed
