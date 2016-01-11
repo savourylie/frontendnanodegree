@@ -166,16 +166,15 @@ var ViewModel = function() {
         favPlacesObj[self.favPlaces()[place].id()] = self.favPlaces()[place];
       }
     }
-    console.log($('#filter').val());
 
-    if (JSON.stringify(favPlacesObj) !== JSON.stringify(self.favPlacesObj_global)) {
+    // if (JSON.stringify(favPlacesObj) !== JSON.stringify(self.favPlacesObj_global))
+    if (!Object.is(favPlacesObj, self.favPlacesObj_global))
+    {
         setMapOnAll(null);
-        console.log("markers cleared.");
         self.favPlacesObj_global = favPlacesObj;
 
         for (var key in favPlacesObj) {
             setMapOnOneMarker(map, markers_R[key]);
-            console.log("added once.");
         }
     }
   });
@@ -183,9 +182,7 @@ var ViewModel = function() {
   // Call infoWindow from the Sidebar
   this.callWindow = function(clickedPlace) {
 
-    console.log(clickedPlace);
     for (var i = 0; i < self.favPlaces().length; ++i) {
-        console.log(self.favPlaces()[i]);
         self.favPlaces()[i].marker.infoWindow.close();
     }
 
@@ -194,8 +191,6 @@ var ViewModel = function() {
 
   // Animation when mouseovered/mouseout to/from the item in the Sidebar
   this.activateAnime = function(hoveredPlace) {
-      console.log('hi');
-      console.log(hoveredPlace);
       hoveredPlace.marker.setAnimation(google.maps.Animation.BOUNCE);
   };
 
@@ -218,8 +213,6 @@ myVM.favPlaces().forEach(function(placeItem){
 });
 
 function initMap() {
-  console.log("initMap called...");
-
   // Create a map object and specify the DOM element for display.
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 22.5345598, lng: 114.0518504},
@@ -281,7 +274,6 @@ function setMapOnAll(map) {
         if(!obj.hasOwnProperty(prop)) continue;
 
         markers_R[key].setMap(map);
-        console.log("SMOA working.");
     }
   }
 };
@@ -292,7 +284,6 @@ function setMapOnOneMarker(map, marker) {
 }
 
 $('#menu-button').click(function(e) {
-  console.log("menu-button working");
   $('#sidebar').toggleClass('open');
   e.stopPropagation();
 });

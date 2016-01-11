@@ -91,10 +91,23 @@ nav {
   background-color: #263238;
 }
 
-#menu-button {
-  float: left;
-  width: 50px;
+@media screen and (max-width: 649px) {
+	#menu-button {
+	  float: left;
+	  width: 50px;
+	}
+
+	#sidebar {
+	  background-color: #37474f;
+	  width: 200px;
+	  height: 100%;
+	  position: absolute;
+	  transform: translate(-300px, 0);
+	  transition: transform 0.3s ease;
+	  z-index: 3;
+	}
 }
+
 #title {
   width: calc(100% - 50px);
   color: rgba(255, 255, 255, 1);
@@ -108,15 +121,7 @@ nav {
   top: 5px;
 }
 
-#sidebar {
-  background-color: #37474f;
-  width: 300px;
-  height: 100%;
-  position: absolute;
-  transform: translate(-300px, 0);
-  transition: transform 0.3s ease;
-  z-index: 3;
-}
+
 
 .filter {
   width: 100%;
@@ -143,21 +148,6 @@ li {
   transform: translate(0, 0) !important;
 }
 
-/*@media screen and (min-width: 600px) {
-  nav {
-    position: relative;
-    transform: translate(0, 0);
-  }
-  body {
-    display: flex;
-    flex-flow: row nowrap;
-  }
-  main {
-    width: auto;
-    flex-grow: 1;
-  }
-}*/
-
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -175,4 +165,19 @@ li {
 a {
     color: inherit;
     text-decoration: none;
+}
+
+@media screen and (min-width: 650px) {
+	#menu-button {
+	  display: none;
+	}
+
+	#sidebar {
+	  background-color: #37474f;
+	  width: 200px;
+	  height: 100%;
+	  position: fixed;
+	  left: 0px;
+	  z-index: 3;
+	}
 }
