@@ -50,6 +50,7 @@ var Place = function(data) {
   this.address = ko.observableArray(); // From Foursquare API
   this.formattedAddress = ko.computed(function() {
       var result = "";
+
       for (var i = 0; i < this.address().length; ++i) {
         result = result + this.address()[i] + "<br/>";
       }
@@ -60,10 +61,36 @@ var Place = function(data) {
 
   this.marker; // From Google Maps API
   this.infoWindowContent = ko.computed(function() {
+      var add, phone, url;
+
+      if (Boolean(this.formattedAddress())) {
+          add = this.formattedAddress();
+      }
+
+      else {
+          add = "";
+      }
+
+      if (Boolean(this.phone())) {
+          phone = this.phone();
+      }
+
+      else {
+          phone = "";
+      }
+
+      if (Boolean(this.url())) {
+          url = this.url();
+      }
+
+      else {
+          url = "";
+      }
+
     return '<h2 class="firstHeading">' + this.title() + '</h2>' +
-          '<h4>' + this.formattedAddress() + '</h4>' +
-          '<h4>' + this.phone() + '</h4>' +
-          '<h4>' + this.url() + '</h4>';
+          '<h4>' + add + '</h4>' +
+          '<h4>' + phone + '</h4>' +
+          '<h4>' + url + '</h4>';
   }, this);
 };
 
@@ -78,7 +105,6 @@ var ViewModel = function() {
 		self.favPlaces.push(new Place(placeItem));
 	});
 
-  // console.log(this.favPlaces());
 
   // Foursquare API AJAX Section
   //////////////////////////////
@@ -87,10 +113,8 @@ var ViewModel = function() {
 
   // Get place data from Foursquare
   for (var i_place = 0; i_place < self.favPlaces().length; ++i_place) {
-    console.log(i_place);
 
     var queryTerm  = self.favPlaces()[i_place].queryTerm();
-    console.log("FSQ begins...queryTerm === " + queryTerm);
 
     $.ajax({
       url: fourSquareURLQuery + queryTerm,
@@ -103,32 +127,20 @@ var ViewModel = function() {
 
         // Getting the address lines
         for (var j = 0; j < data.response.venues[0].location.formattedAddress.length; j++) {
-            self.favPlaces()[i_place].address(data.response.venues[0].location.formattedAddress[j]);
+            self.favPlaces()[i_place].address.push(data.response.venues[0].location.formattedAddress[j]);
         }
 
         // Getting the URL
         self.favPlaces()[i_place].url(data.response.venues[0].url);
 
       }
-    });
-
-    console.log("Pushed URL...queryTerm === " + queryTerm);
-    console.log(self.favPlaces()[i_place].infoWindowContent());
+    })
+      .fail(function() {
+          self.favPlaces()[i_place].address.push("Sorry! Foursquare is down.");
+       });
   }
   ////////////////////////
   // End of Foursquare API
-
-  // Google Maps API related
-  //////////////////////////
-  // Object version of initialPlaces
-  markers = {
-    "mccawleys": mcCawleys,
-    "starbuckscoco": starbucksCoco,
-    "dreamgym": dreamGym,
-    "yonghedawang": yongHeDaWang,
-    "mujiretail": mujiRetail
-  };
-  //////////////////////////
 
   this.filter = ko.observable();
 
@@ -155,7 +167,6 @@ var ViewModel = function() {
       }
     }
     console.log($('#filter').val());
-    // console.log(favPlacesObj);
 
     if (JSON.stringify(favPlacesObj) !== JSON.stringify(self.favPlacesObj_global)) {
         setMapOnAll(null);
@@ -168,9 +179,43 @@ var ViewModel = function() {
         }
     }
   });
+
+  // Call infoWindow from the Sidebar
+  this.callWindow = function(clickedPlace) {
+
+    console.log(clickedPlace);
+    for (var i = 0; i < self.favPlaces().length; ++i) {
+        console.log(self.favPlaces()[i]);
+        self.favPlaces()[i].marker.infoWindow.close();
+    }
+
+    clickedPlace.marker.infoWindow.open(map, clickedPlace.marker);
+  }
+
+  // Animation when mouseovered/mouseout to/from the item in the Sidebar
+  this.activateAnime = function(hoveredPlace) {
+      console.log('hi');
+      console.log(hoveredPlace);
+      hoveredPlace.marker.setAnimation(google.maps.Animation.BOUNCE);
+  };
+
+  this.deactivateAnime = function(hoveredPlace) {
+      hoveredPlace.marker.setAnimation(null);
+  };
 };
 
+// Instantiate ViewModel
 
+var myVM = new ViewModel();
+markers = {};
+
+// Google Maps API related
+//////////////////////////
+// Object version of initialPlaces
+
+myVM.favPlaces().forEach(function(placeItem){
+    markers[placeItem.id()] = placeItem;
+});
 
 function initMap() {
   console.log("initMap called...");
@@ -182,51 +227,47 @@ function initMap() {
     zoom: 17
   });
 
-  // for (i = 0; i < markers.length; i++)
   for (var key in markers) {
     // Get positions of all the fav places
-    var position = new google.maps.LatLng(markers[key].coords[0], markers[key].coords[1]);
+    var position = new google.maps.LatLng(markers[key].coords()[0], markers[key].coords()[1]);
 
     // Set markers
-    var marker = new google.maps.Marker({
+    markers[key].marker = new google.maps.Marker({
       position: position,
       map: map,
-      title: markers[key].title
+      title: markers[key].title()
     });
 
-    var infoWindow = new google.maps.InfoWindow({
-      // content: markers[key].infoWindowContent()
-      content: "Wahaha"
+    markers[key].marker.addListener('mouseover', (function(copyMarker) {
+        return function() {
+            copyMarker.setAnimation(google.maps.Animation.BOUNCE);
+        };
+    })(markers[key].marker));
+
+    markers[key].marker.addListener('mouseout', (function(copyMarker) {
+        return function() {
+            copyMarker.setAnimation(null);
+        };
+    })(markers[key].marker));
+
+    markers[key].marker.infoWindowContent = markers[key].infoWindowContent();
+
+    markers[key].marker.infoWindow = new google.maps.InfoWindow({
+      content: markers[key].marker.infoWindowContent
     });
 
-    google.maps.event.addListener(marker, 'click', (function(copyMarker) {
+    google.maps.event.addListener(markers[key].marker, 'click', (function(copyMarker, copyMarkers) {
       return function() {
-          // console.log('Testing infoWindow Stuff.');
-          // console.log(copyMarker);
-          infoWindow.open(map, copyMarker);
-          console.log(copyMarker.title());
-          // console.log(copyMarker.title);
-      };
-    })(marker));
+          copyMarker.infoWindow.open(map, copyMarker);
 
-    // marker.addListener('click', function(copyMarker) {
-    //   return function() {
-    //       console.log("marker" + markers[key].id + " " + "clicked.");
-    //   }
-    //   // infowindow.open(map, marker);
-    // }(this));
-    markers_R[key] = marker;
-    // console.dir(marker);
+      };
+  })(markers[key].marker, markers));
+
+    markers_R[key] = markers[key].marker;
+
   }
 
-  // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-  // var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-  //   this.setZoom(14);
-  //   google.maps.event.removeListener(boundsListener);
-  // });
-
-  // console.log("initMap run successfully.");
-  console.log("initMap completed...");
+  ko.applyBindings(myVM);
 }
 
 // Sets the map on all markers in the array.
@@ -243,7 +284,7 @@ function setMapOnAll(map) {
         console.log("SMOA working.");
     }
   }
-}
+};
 
 // Sets the map on the wished markers in the array.
 function setMapOnOneMarker(map, marker) {
@@ -256,10 +297,6 @@ $('#menu-button').click(function(e) {
   e.stopPropagation();
 });
 
-
-
-ko.applyBindings(new ViewModel());
-
 // MISC
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
@@ -267,3 +304,13 @@ Array.prototype.remove = function(from, to) {
   this.length = from < 0 ? this.length + from : from;
   return this.push.apply(this, rest);
 };
+
+// // ANIME
+//
+// function toggleBounce() {
+//   if (marker.getAnimation() !== null) {
+//     marker.setAnimation(null);
+//   } else {
+//     marker.setAnimation(google.maps.Animation.BOUNCE);
+//   }
+// }

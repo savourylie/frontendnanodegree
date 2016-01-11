@@ -29,7 +29,7 @@
       <input id="filter" type="text" data-bind="filter">
     </form>
     <ul class="row" id="fav-places" data-bind="foreach: favPlaces">
-      <li data-bind="text: title, attr: { id: id }"></li>
+      <a href="#"><li data-bind="text: title, attr: { id: id }, click: $parent.callWindow, event: {mouseover: $parent.activateAnime, mouseout: $parent.deactivateAnime}"></li></a>
     </ul>
   </div>
   <div id="map"></div>
