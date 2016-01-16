@@ -181,3 +181,7 @@ a {
 	  z-index: 3;
 	}
 }
+
+.koClass {
+    color: red;
+}

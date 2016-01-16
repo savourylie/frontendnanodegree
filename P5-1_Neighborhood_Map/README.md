@@ -35,3 +35,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## To-do List for Project Resummision
+### Interface
+1. I recommend to autohide list if infowindow is opened in mobile view. Currently infoWindow is not completely visible due to opened list
+
+### App Functionality
+N/A
+
+### App Architecture (DOES NOT MEET REQUIREMENT!)
+* **You should use Knockout bindings (not JQuery) where it is possible to manipulate DOM objects. See Code Review page for more details.**
+
+* Student incorporates a build process allowing for production quality, minified code, to be delivered to the client.
+
+* Data persists when the app is closed and reopened, either through localStorage or an external database (e.g. Firebase).
+
+* In lieu of hardcoding locations, student populates a dynamic model with information retrieved from an API.
+
+### Asynchronous Data Usage (DOES NOT MEET REQUIREMENT!)
+* **Google Map API asynchronous loading and error handling should be updated a little bit. (See Code Review Section)**
+
+### Filter Functionality
+* Can be improved with an additaional autocomplete functionality. See:
+** https://github.com/LeaVerou/awesomplete
+** https://github.com/tombolaltd/awesomplete
+** https://jqueryui.com/autocomplete/

@@ -1,3 +1,10 @@
+ko.utils.stringStartsWith = function (string, startsWith) {
+    if (startsWith.length > string.length)
+        return false;
+
+    return string.substring(0, startsWith.length) === startsWith;
+};
+
 // MODEL: Setting up the fav places
 var mcCawleys, starbucksCoco, dreamGym, yongHeDaWang, mujiRetail;
 
@@ -43,6 +50,11 @@ var Place = function(data) {
     this.title = ko.observable(data.title);
     this.id = ko.observable(data.id);
     this.coords = ko.observableArray(data.coords);
+    // this.visibility = '';
+    this.visibility = ko.computed(function() {
+        // return filterInput();
+        return;
+    }, this);
     this.queryTerm = ko.computed(function() {
         return this.title().split(", ")[0];
     }, this);
@@ -59,7 +71,8 @@ var Place = function(data) {
     this.phone = ko.observable(); // From Foursquare API
     this.url = ko.observable(); // From Foursquare API
 
-    this.marker; // From Google Maps API
+    // From Google Maps API
+    // this.marker;
     this.infoWindowContent = ko.computed(function() {
         var add, phone, url;
 
@@ -89,6 +102,7 @@ var Place = function(data) {
 };
 
 var ViewModel = function() {
+    'use strict';
     var self = this;
 
     // Make an observableArray of the fav places
@@ -99,6 +113,27 @@ var ViewModel = function() {
         self.favPlaces.push(new Place(placeItem));
     });
 
+    // Declare the filterInput observable
+    this.filterInput = ko.observable('');
+
+    this.filteredItems = ko.computed(function() {
+        var rtrn_arr = [];
+        var substring = self.filterInput().toLowerCase();
+
+        if (!substring) {
+            return this.favPlaces();
+        }
+
+        else {
+            self.favPlaces().forEach(function(place) {
+                var string = place.title();
+                if (string.toLowerCase().indexOf(substring.toLowerCase()) !== -1) {
+                    rtrn_arr.push(place);
+                }
+            });
+            return rtrn_arr;
+        }
+    }, this);
 
     // Foursquare API AJAX Section
     //////////////////////////////
@@ -107,7 +142,6 @@ var ViewModel = function() {
 
     // Get place data from Foursquare
     console.log("Start calling Foursquares API");
-    var bound = false;
     var counter = 0;
     self.favPlaces().forEach(function(place) {
         //   var queryTerm  = self.favPlaces()[i_place].queryTerm();
@@ -150,39 +184,40 @@ var ViewModel = function() {
     ////////////////////////
     // End of Foursquare API
 
-    this.filter = ko.observable();
-
-    this.favPlacesObj_global = {};
-
-    $('#filter').keyup(function() {
-        var substring = $('#filter').val();
-
-        var favPlacesObj = {};
-
-        for (var place = 0; place < self.favPlaces().length; place++) {
-            var string = self.favPlaces()[place].title();
-            if (string.toLowerCase().indexOf(substring.toLowerCase()) === -1) {
-                // Hide the item from the list in the DOM
-                $('#' + self.favPlaces()[place].id()).addClass('out-of-filter');
-                // Remove the marker index of the place
-                delete favPlacesObj[self.favPlaces()[place].id()];
-            } else {
-                $('#' + self.favPlaces()[place].id()).removeClass('out-of-filter');
-                // Add the marker index of the place
-                favPlacesObj[self.favPlaces()[place].id()] = self.favPlaces()[place];
-            }
-        }
-
-        // if (JSON.stringify(favPlacesObj) !== JSON.stringify(self.favPlacesObj_global))
-        if (!Object.is(favPlacesObj, self.favPlacesObj_global)) {
-            setMapOnAll(null);
-            self.favPlacesObj_global = favPlacesObj;
-
-            for (var key in favPlacesObj) {
-                setMapOnOneMarker(map, markers_R[key]);
-            }
-        }
-    });
+    // The Filter (Old)
+    // this.filter = ko.observable();
+    //
+    // this.favPlacesObj_global = {};
+    //
+    // $('#filter').keyup(function() {
+    //     var substring = $('#filter').val();
+    //
+    //     var favPlacesObj = {};
+    //
+    //     for (var place = 0; place < self.favPlaces().length; place++) {
+    //         var string = self.favPlaces()[place].title();
+    //         if (string.toLowerCase().indexOf(substring.toLowerCase()) === -1) {
+    //             // Hide the item from the list in the DOM
+    //             $('#' + self.favPlaces()[place].id()).addClass('out-of-filter');
+    //             // Remove the marker index of the place
+    //             delete favPlacesObj[self.favPlaces()[place].id()];
+    //         } else {
+    //             $('#' + self.favPlaces()[place].id()).removeClass('out-of-filter');
+    //             // Add the marker index of the place
+    //             favPlacesObj[self.favPlaces()[place].id()] = self.favPlaces()[place];
+    //         }
+    //     }
+    //
+    //     // if (JSON.stringify(favPlacesObj) !== JSON.stringify(self.favPlacesObj_global))
+    //     if (!Object.is(favPlacesObj, self.favPlacesObj_global)) {
+    //         setMapOnAll(null);
+    //         self.favPlacesObj_global = favPlacesObj;
+    //
+    //         for (var key in favPlacesObj) {
+    //             setMapOnOneMarker(map, markers_R[key]);
+    //         }
+    //     }
+    // });
 
     // Call infoWindow from the Sidebar
     this.callWindow = function(clickedPlace) {
@@ -192,7 +227,7 @@ var ViewModel = function() {
         }
 
         clickedPlace.marker.infoWindow.open(map, clickedPlace.marker);
-    }
+    };
 
     // Animation when mouseovered/mouseout to/from the item in the Sidebar
     this.activateAnime = function(hoveredPlace) {
@@ -219,7 +254,7 @@ myVM.favPlaces().forEach(function(placeItem) {
 });
 
 function initMap() {
-    console.log("initMap initated")
+    console.log("initMap initated");
         // Create a map object and specify the DOM element for display.
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -286,7 +321,7 @@ function setMapOnAll(map) {
             markers_R[key].setMap(map);
         }
     }
-};
+}
 
 // Sets the map on the wished markers in the array.
 function setMapOnOneMarker(map, marker) {
