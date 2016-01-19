@@ -110,12 +110,25 @@ var ViewModel = function() {
         self.favPlaces.push(new Place(placeItem));
     });
 
+    this.getFsContent = ko.observable();
+
+    this.setFsContent = function(clickedPlace) {
+        self.getFsContent(clickedPlace.infoWindowContent());
+    };
+
+    this.clickEvents = function(clickedPlace) {
+        self.setFsContent(clickedPlace);
+        self.callWindow(clickedPlace);
+    };
+    
     // Declare the filterInput observable
     this.filterInput = ko.observable('');
 
     this.filteredItems = ko.computed(function() {
         var rtrn_arr = [];
         var substring = self.filterInput().toLowerCase();
+        self.getFsContent('');
+
 
         if (substring === "") {
             self.favPlaces().forEach(function(place) {
@@ -151,16 +164,7 @@ var ViewModel = function() {
         }
     }, this);
 
-    this.getFsContent = ko.observable();
 
-    this.setFsContent = function(clickedPlace) {
-        self.getFsContent(clickedPlace.infoWindowContent());
-    };
-
-    this.clickEvents = function(clickedPlace) {
-        self.setFsContent(clickedPlace);
-        self.callWindow(clickedPlace);
-    };
 
     this.toggleStatus = ko.observable('close');
 
