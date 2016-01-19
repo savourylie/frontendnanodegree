@@ -1,9 +1,4 @@
-ko.utils.stringStartsWith = function (string, startsWith) {
-    if (startsWith.length > string.length)
-        return false;
-
-    return string.substring(0, startsWith.length) === startsWith;
-};
+'use strict';
 
 // MODEL: Setting up the fav places
 var mcCawleys, starbucksCoco, dreamGym, yongHeDaWang, mujiRetail;
@@ -44,7 +39,10 @@ var initialPlaces = [mcCawleys, dreamGym, starbucksCoco, yongHeDaWang, mujiRetai
 // Declare a global map variable
 var map;
 var markers;
-var markers_R = [];
+var markers_R = {};
+var mapReady = false;
+var fsCounter;
+var fsCcount;
 
 var Place = function(data) {
     this.title = ko.observable(data.title);
@@ -94,15 +92,14 @@ var Place = function(data) {
             url = "";
         }
 
-        return '<h2 class="firstHeading">' + this.title() + '</h2>' +
-            '<h4>' + add + '</h4>' +
-            '<h4>' + phone + '</h4>' +
-            '<h4>' + url + '</h4>';
+        return '<h2 class="firstHeading word_wrap">' + this.title() + '</h2>' +
+            '<h4 class="word_wrap">' + add + '</h4>' +
+            '<h4 class="word_wrap">' + phone + '</h4>' +
+            '<h4 class="word_wrap">' + url + '</h4>';
     }, this);
 };
 
 var ViewModel = function() {
-    'use strict';
     var self = this;
 
     // Make an observableArray of the fav places
@@ -120,8 +117,20 @@ var ViewModel = function() {
         var rtrn_arr = [];
         var substring = self.filterInput().toLowerCase();
 
-        if (!substring) {
-            return this.favPlaces();
+        if (substring === "") {
+            self.favPlaces().forEach(function(place) {
+                rtrn_arr.push(place);
+            });
+
+            if (mapReady === true) {
+                setMapOnAll(null);
+
+                rtrn_arr.forEach(function(place) {
+                    setMapOnOneMarker(map, markers_R[place.id()]);
+                });
+            }
+
+            return rtrn_arr;
         }
 
         else {
@@ -131,9 +140,40 @@ var ViewModel = function() {
                     rtrn_arr.push(place);
                 }
             });
+
+            setMapOnAll(null);
+
+            rtrn_arr.forEach(function(place) {
+                setMapOnOneMarker(map, markers_R[place.id()]);
+            });
+
             return rtrn_arr;
         }
     }, this);
+
+    this.getFsContent = ko.observable();
+
+    this.setFsContent = function(clickedPlace) {
+        self.getFsContent(clickedPlace.infoWindowContent());
+    };
+
+    this.clickEvents = function(clickedPlace) {
+        self.setFsContent(clickedPlace);
+        self.callWindow(clickedPlace);
+    };
+
+    this.toggleStatus = ko.observable('close');
+
+    this.toggleBar = function(clickItem) {
+        if (self.toggleStatus() === 'close') {
+            self.toggleStatus('open');
+        }
+
+        else {
+            self.toggleStatus('close');
+        }
+    };
+
 
     // Foursquare API AJAX Section
     //////////////////////////////
@@ -141,8 +181,6 @@ var ViewModel = function() {
     var fourSquareURLQuery = "https://api.foursquare.com/v2/venues/search?client_id=TRNYXMSMSGYF0DXCBPEP1R35GH0FIMVJL3YKHAF5G4LB1AAR&client_secret=RYZNRJUVHDBPOCVDABFNOX5IIGYPOE3ZILRPD1HR2D1BBVS5&v=20160101&ll=22.5345598,114.0518504&query=";
 
     // Get place data from Foursquare
-    console.log("Start calling Foursquares API");
-    var counter = 0;
     self.favPlaces().forEach(function(place) {
         //   var queryTerm  = self.favPlaces()[i_place].queryTerm();
         var queryTerm = place.queryTerm();
@@ -153,7 +191,6 @@ var ViewModel = function() {
                 jsonp: false,
                 // async: false,
                 success: function(data) {
-                    counter++;
                     // Getting the phone number
                     //   self.favPlaces()[i_place].phone(data.response.venues[0].contact.formattedPhone);
                     place.phone(data.response.venues[0].contact.formattedPhone);
@@ -166,14 +203,6 @@ var ViewModel = function() {
                     // Getting the URL
                     //   self.favPlaces()[i_place].url(data.response.venues[0].url);
                     place.url(data.response.venues[0].url);
-                    console.log(place.url());
-
-                    if (counter === 5) {
-                        initMap();
-                        ko.applyBindings(myVM);
-                        console.log("myVM bound.");
-                        console.log("Last Foursquare API called.");
-                    }
                 }
             })
             .fail(function() {
@@ -237,12 +266,13 @@ var ViewModel = function() {
     this.deactivateAnime = function(hoveredPlace) {
         hoveredPlace.marker.setAnimation(null);
     };
+
+
 };
 
 // Instantiate ViewModel
 
 var myVM = new ViewModel();
-console.log("myVM instantiated.");
 markers = {};
 
 // Google Maps API related
@@ -254,7 +284,6 @@ myVM.favPlaces().forEach(function(placeItem) {
 });
 
 function initMap() {
-    console.log("initMap initated");
         // Create a map object and specify the DOM element for display.
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -302,10 +331,15 @@ function initMap() {
         })(markers[key].marker, markers));
 
         markers_R[key] = markers[key].marker;
-
     }
-    console.log("initMap run.");
-    // ko.applyBindings(myVM);
+    mapReady = true;
+    ko.applyBindings(myVM);
+}
+
+function errorHandling() {
+    $('#map').append("<span id='sorry'>Sorry! No Map!</span>");
+    $('#sorry').addClass("move_right");
+  // this function will be called when the google maps api is failed to load
 }
 
 // Sets the map on all markers in the array.
@@ -327,11 +361,6 @@ function setMapOnAll(map) {
 function setMapOnOneMarker(map, marker) {
     marker.setMap(map);
 }
-
-$('#menu-button').click(function(e) {
-    $('#sidebar').toggleClass('open');
-    e.stopPropagation();
-});
 
 // MISC
 // Array Remove - By John Resig (MIT Licensed)

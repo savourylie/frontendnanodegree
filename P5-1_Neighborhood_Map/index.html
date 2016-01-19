@@ -17,7 +17,7 @@
         <nav>
             <!-- TopBar + SearchBar -->
             <div class="topbar row">
-                <div id="menu-button">
+                <div id="menu-button" data-bind="click: toggleBar">
                     <i class="material-icons md-light md-48">menu</i>
                 </div>
                 <div id="title">
@@ -27,16 +27,20 @@
             <!-- topbar -->
         </nav>
     </header>
-    <div id="sidebar" class="">
-        <form class="_div row">
+    <div id="sidebar" class="" data-bind="attr: { class: toggleStatus }">
+        <form class="row">
             <!-- <input id="filter" type="text" data-bind="filter"> -->
             <input id="filterNew" type="text" data-bind="textInput: filterInput">
         </form>
         <ul class="row" id="fav-places" data-bind="foreach: filteredItems">
             <a href="#">
-                <li data-bind="text: title, attr: {id: id, class: visibility}, click: $parent.callWindow, event: {mouseover: $parent.activateAnime, mouseout: $parent.deactivateAnime}"></li>
+                <li data-bind="text: title, attr: {id: id, class: visibility}, click: $parent.clickEvents, event: {mouseover: $parent.activateAnime, mouseout: $parent.deactivateAnime}"></li>
             </a>
         </ul>
+
+        <div class="fs_div row">
+            <div class=fs_content data-bind="html: getFsContent"></div>
+        </div>
         <!-- <ul class="row" id="fav-places" data-bind="foreach: favPlaces">
             <a href="#">
                 <li data-bind="text: title, attr: {id: id, class: visibility}, click: $parent.callWindow, event: {mouseover: $parent.activateAnime, mouseout: $parent.deactivateAnime}"></li>
@@ -49,8 +53,10 @@
     <script src="js/lib/knockout-3.4.0.js"></script>
     <!-- <script src="js/lib/materialize.min.js"></script> -->
     <script src="js/main.js"></script>
+    <!-- <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUW5CtmTcHoJ31XboFhgxW-qkAVX7gUZE&callback=initMap" onerror="errorHandling()"> -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUW5CtmTcHoJ31XboFhgxW-qkAVX7gUZE&callback=initMap" onerror="errorHandling()"></script>
     <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUW5CtmTcHoJ31XboFhgxW-qkAVX7gUZE&callback=initMap"></script> -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUW5CtmTcHoJ31XboFhgxW-qkAVX7gUZE"></script>
 </body>
 
 </html>

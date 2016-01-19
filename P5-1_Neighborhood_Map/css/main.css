@@ -95,6 +95,7 @@ nav {
 	#menu-button {
 	  float: left;
 	  width: 50px;
+      z-index: 4;
 	}
 
 	#sidebar {
@@ -148,6 +149,10 @@ li {
   transform: translate(0, 0) !important;
 }
 
+.close {
+
+}
+
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -167,6 +172,30 @@ a {
     text-decoration: none;
 }
 
+.fs_div {
+    width: 100%;
+    position: relative;
+}
+
+.fs_content {
+    width: 100%;
+    position: relative;
+    left: 25px;
+    color: white;
+    overflow-wrap: avoid;
+}
+
+.word_wrap {
+      word-wrap: break-word;
+      width: 80%;
+      position: relative;
+}
+
+.move_right {
+    position: relative;
+    left: 210px;
+}
+
 @media screen and (min-width: 650px) {
 	#menu-button {
 	  display: none;
@@ -180,8 +209,4 @@ a {
 	  left: 0px;
 	  z-index: 3;
 	}
-}
-
-.koClass {
-    color: red;
 }
