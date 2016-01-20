@@ -91,6 +91,7 @@ $(function() {
 
             // Slide back
             jsmMenuIcon.click();
+            expect($('.menu-hidden .slide-menu').css('transform')).toBe('matrix(1, 0, 0, 1, -192, 0)');
           });
     });
     /* TODO: Write a new test suite named "Initial Entries" */
