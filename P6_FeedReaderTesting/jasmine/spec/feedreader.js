@@ -84,37 +84,65 @@ $(function() {
 
           it('is shown when the hamburger icon is clicked, and is hidden again when clicked again', function() {
 
-            // Creating a stub for the menu button object
-            spyOn(jsmMenuIcon, 'on').and.callThrough();
-
-            // Creating a stub for the toggleMenu function
-            spyOn(globalObj, 'toggleMenu');
-
             // Testing the functions combined
-            jsmMenuIcon.on('click', function() {
-                globalObj.toggleMenu();
-                console.log('.on method not affected by spyOn');
-            });
+            jsmMenuIcon.click();
 
-            // 1. See if the click event works
-            expect(jsmMenuIcon.on).toHaveBeenCalled();
-            // 2. See if the toggelMenu function works
-            expect(globalObj.toggleMenu).toHaveBeenCalled();
+            expect($('body').hasClass('')).toBe(true);
+
+            // Slide back
+            jsmMenuIcon.click();
           });
     });
     /* TODO: Write a new test suite named "Initial Entries" */
-
+    describe('Initial Entries', function() {
+        beforeEach(function(done) {
+            loadFeed(0, done);
+         });
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
          * Remember, loadFeed() is asynchronous so this test wil require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+         it('there is at least a single .entry element within the .feed container', function(done) {
+            expect($('.feed .entry').length).not.toBe(0);
+            done();
+         });
+    });
+    /* TODO: Write a new test suite named "New Feed Selection" */
+    describe('New Feed Selection', function() {
+        var feedContent;
+        // var originalTimeout;
 
-    /* TODO: Write a new test suite named "New Feed Selection"
+        beforeEach(function(done) {
+            // originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+            // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+            // loadFeed(2, done);
+            // feedContent = $('.feed').html();
+            loadFeed(1, function() {
+                feedContent = $('.feed').html();
+                console.log($('.feed').html());
+                done();
+            });
+        });
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+
+        it('when a new feed is loaded, the content actually changes', function(done) {
+
+            // loadFeed(2, done);
+            loadFeed(2, function() {
+                console.log($('.feed').html());
+                expect(feedContent).not.toEqual($('.feed').html());
+                done();
+            });
+        });
+
+        // afterEach(function() {
+        //     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        // });
+    });
 }());

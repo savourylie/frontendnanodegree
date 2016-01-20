@@ -120,7 +120,7 @@ var ViewModel = function() {
         self.setFsContent(clickedPlace);
         self.callWindow(clickedPlace);
     };
-    
+
     // Declare the filterInput observable
     this.filterInput = ko.observable('');
 

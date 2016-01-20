@@ -7,7 +7,7 @@
  */
 
 // Global variables for testing with JasmineJS
-var globalObj = this; 
+var globalObj = this;
 var jsmMenuIcon;
 
 var toggleMenu = function() {
