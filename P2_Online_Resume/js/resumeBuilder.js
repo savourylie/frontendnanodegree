@@ -61,37 +61,21 @@ bio.display = function() {
 var education = {
 	"schools": [
 		{
-			"name": "University of East Anglia",
-			"location": "Norwich, UK",
-			"degree": "MSc",
-			"majors": ["Mathematics"],
+			"name": "University of the Universe",
+			"location": "Earth",
+			"degree": "Master Jedi",
+			"majors": ["Data"],
 			"dates": 2009,
-			'url': "http://www.uea.ac.uk/"
-		},
-		{
-			"name": "National Cheng Kung Univeristy",
-			"location": "Tainan, Taiwan",
-			"degree": "BEng",
-			"majors": ["Aeronautics and Astronautics"],
-			"dates": 2006,
-			'url': "http://web.ncku.edu.tw/"
-		},
-		{
-			"name": "Rubbish School",
-			"location": "Los Angeles, US",
-			"degree": "BS",
-			"majors": ["B*llshitology"],
-			"dates": 3001,
-			'url': "http://www.stanford.edu/"
+			'url': "http://www.jedi.ac.uk/"
 		}
 	],
 
 	"onlineCourses": [
 		{
-			"title": "Machine Learning",
-			"school": "Coursera",
+			"title": "Humanoid ethics",
+			"school": "Jedi College",
 			"dates": 2014,
-			"url": "http://www.coursera.com"
+			"url": "http://www.jedi-college.edu"
 		}
 	]
 };
@@ -142,17 +126,10 @@ work.jobs = [
 	},
 	{
 		"employer": "ChinaStepOne",
-		"title": "Slacker",
+		"title": "The Slacker Boss",
 		"location": "Shenzhen, China",
 		"dates": "Nov, 2011 - April, 2013",
-		"description": "Started being a slacker at CSO from Jul, 2015"
-	},
-	{
-		"employer": "National Tainan Institute of Nursing",
-		"title": "Teacher",
-		"location": "Tainan, Taiwan",
-		"dates": "Feb - Jun, 2010",
-		"description": "Taught English conversation ans stuff"
+		"description": "Started being a slacker boss at CSO from Jul, 2015"
 	}
 ];
 
